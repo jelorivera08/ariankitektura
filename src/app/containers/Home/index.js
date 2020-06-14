@@ -1,13 +1,11 @@
-import React, { useState, useEffect } from "react";
-import { importAll } from "../../helpers";
+import React, { useState, useEffect, useContext } from "react";
 import logo from "../../../assets/images/logo.png";
-
+import cx from "classnames";
 import { Divider } from "semantic-ui-react";
 import styled from "styled-components";
-
-const images = importAll(
-  require.context("../../../assets/projects", false, /\.(png|jpe?g|svg)$/)
-);
+import { useHistory } from "react-router-dom";
+import Header from "../../components/Header";
+import AppContext from "../../context";
 
 const ProjectsContainer = styled.div`
   height: 40rem;
@@ -27,12 +25,6 @@ const ProjectsContainer = styled.div`
   }
 `;
 
-const Header = styled.div`
-  height: 2.5rem;
-  z-index: 1;
-  background-color: rgba(0, 0, 0, 0.5);
-`;
-
 const LogoContainer = styled.div`
   width: 15rem;
   min-width: 15rem;
@@ -45,9 +37,12 @@ const ProjectLabel = styled.div`
 
 const ProjectImageContainer = styled.div`
   overflow: hidden;
-  // height: 0;
+  opacity: 0;
+  transition: opacity 2s ease;
 
-  transition: height 0.3s ease;
+  &.isVisible {
+    opacity: 1;
+  }
 `;
 
 const ProjectImage = styled.img`
@@ -59,9 +54,12 @@ const ProjectImage = styled.img`
   }
 `;
 
-export default () => {
+export default ({ images }) => {
   const [displayImage, setDisplayImage] = useState("");
-  const [projects, setProjects] = useState([]);
+  const [projectsInViewport, setProjectsInViewport] = useState([]);
+  const { appProjects } = useContext(AppContext);
+
+  const history = useHistory();
 
   useEffect(() => {
     const imagesLength = images.length;
@@ -69,41 +67,42 @@ export default () => {
 
     setDisplayImage(images[randomizeImage()]);
 
-    setInterval(() => {
+    const intervalImage = setInterval(() => {
       setDisplayImage(images[randomizeImage()]);
+
+      return () => clearInterval(intervalImage);
     }, 5000);
-  }, []);
+  }, [images]);
 
   useEffect(() => {
-    const sortedProjects = [];
-    images.map((image) => {
-      const imageProject = image.split("/")[3].split("-")[1];
-      const existingProject = sortedProjects.find(
-        (sortedProject) => sortedProject.projectName === imageProject
-      );
+    const isInViewport = (el, offset = -150) => {
+      if (!el) return false;
+      const top = el.getBoundingClientRect().top;
+      return top + offset >= 0 && top - offset <= window.innerHeight;
+    };
 
-      if (existingProject) {
-        existingProject.images.push(image);
-      } else {
-        sortedProjects.push({
-          projectName: imageProject,
-          images: [image],
-        });
-      }
+    document.addEventListener("scroll", () => {
+      const tempprojectsInViewport = [];
+      appProjects.forEach((project, i) => {
+        const el = document.getElementById("project-" + i);
 
-      setProjects(sortedProjects);
+        if (isInViewport(el)) {
+          tempprojectsInViewport.push(i);
+        }
+      });
+
+      setProjectsInViewport((projectsInViewport) => [
+        ...projectsInViewport,
+        ...tempprojectsInViewport,
+      ]);
     });
-  }, []);
+
+    return document.removeEventListener("scroll", () => {});
+  }, [appProjects]);
 
   return (
     <div>
-      <Header className="flex text-white justify-between items-center fixed w-full fixed top-0">
-        <div className="mx-4 ">Ariankitektura</div>
-        <div className="flex">
-          <div className="mx-4">Projects</div>
-          <div className="mx-4">Contact</div>
-        </div>
-      </Header>
+      <Header />
       <ProjectsContainer className="w-full mt-16 flex justify-center">
         <img
           className="h-full rounded cursor-pointer"
@@ -123,7 +122,7 @@ export default () => {
 
         <div className="pr-24 text-lg leading-loose">
           <span className="font-bold">Ariankitektura Design Studio</span> is
-          spearheaded by a bright and young architect winning multiple
+          spearheaded by a bright and young architect who has won multiple
           prestigous awards like the{" "}
           <span className="font-semibold">
             Asian Young Designer Award (3rd place and Best in Green Innovation
@@ -136,22 +135,33 @@ export default () => {
         </div>
       </div>
 
-      <div className="m-16">
+      <div id="projet-divider" className="m-16">
         <Divider />
       </div>
 
-      <div className="bg-gray-500 mx-32 grid grid-cols-2">
-        {projects.map((project) => (
-          <ProjectImageContainer
-            key={project.projectName}
-            className="cursor-pointer relative"
-          >
-            <ProjectImage src={project.images[0]} alt="project-1" />
-            <ProjectLabel className="absolute text-white font-bold text-4xl ">
-              {project.projectName}
-            </ProjectLabel>
-          </ProjectImageContainer>
-        ))}
+      <div className="bg-gray-300 mx-32 grid grid-cols-2">
+        {appProjects.map((project, i) => {
+          return (
+            <ProjectImageContainer
+              onClick={() => {
+                history.push(`/${project.projectName.toLowerCase()}`);
+              }}
+              id={"project-" + i}
+              key={project.projectName}
+              className={cx("cursor-pointer relative", {
+                isVisible: projectsInViewport.includes(i),
+              })}
+            >
+              <ProjectImage
+                src={project.images[project.imageToDsiplay]}
+                alt="project-1"
+              />
+              <ProjectLabel className="absolute text-white font-bold text-4xl ">
+                {project.projectName.toUpperCase()}
+              </ProjectLabel>
+            </ProjectImageContainer>
+          );
+        })}
       </div>
     </div>
   );
