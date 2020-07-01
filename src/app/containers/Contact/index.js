@@ -1,169 +1,79 @@
-import React, { useContext } from "react";
-import Header from "../../components/Header";
+import React, { useState, useContext, useEffect } from "react";
+import { Divider, Icon } from "semantic-ui-react";
+import cs from "classnames";
 import styled from "styled-components";
-import { Icon, Grid } from "semantic-ui-react";
-import logo from "../../../assets/images/logo.png";
-
+import { useHistory } from "react-router-dom";
 import AppContext from "../../context";
+import logo from "../../../assets/images/logo.png";
+import arki from "../../../assets/images/architect.jpg";
+import address from "../../../assets/images/address.png";
 
-const ProjectImageContainer = styled.div`
-  overflow: hidden;
-  animation: fadeIn 2s forwards;
+const ImageContainer = styled.div`
+  animation: fadeIn 5s infinite;
 
   @keyframes fadeIn {
-    from {
+    0% {
       opacity: 0;
     }
-    to {
+    50% {
       opacity: 1;
+    }
+    100% {
+      opacity: 0;
     }
   }
 `;
 
-const LogoContainer = styled.div`
-  width: 15rem;
-  min-width: 15rem;
-`;
+const getRandomProjectImage = (appProjects) => {
+  if (appProjects.length <= 0) return "static/media/2019-AVIDA-1.d99f92a6.jpg";
 
-const ProjectImage = styled.img`
-  transition: transform 0.5s;
+  try {
+    const randomProjectIndex = Math.round(
+      Math.random() * appProjects.length - 1
+    );
 
-  :hover {
-    transform: scale(1.3);
-    transform-origin: 50% 50%;
+    const randomImageIndex = Math.round(
+      Math.random() * appProjects[randomProjectIndex].images.length - 1
+    );
+    return appProjects[randomProjectIndex].images[randomImageIndex];
+  } catch (err) {
+    return "static/media/2019-AVIDA-1.d99f92a6.jpg";
   }
-`;
+};
 
 export default () => {
-  const { appProjects } = useContext(AppContext);
-
-  const generateRandomProjectImage = () => {
-    const randomProject =
-      appProjects[Math.floor(appProjects.length * Math.random())];
-
-    return randomProject.images[
-      Math.floor(Math.random() * randomProject.images.length)
-    ];
-  };
+  const history = useHistory();
 
   return (
-    <>
-      <Header></Header>
-      <div className="mt-24">
-        <Grid columns={3}>
-          <Grid.Row style={{ padding: 0 }}>
-            <Grid.Column style={{ padding: 0 }}>
-              <ProjectImageContainer className="cursor-pointer relative">
-                <ProjectImage
-                  src={generateRandomProjectImage()}
-                  alt="project-1"
-                />
-              </ProjectImageContainer>
-            </Grid.Column>
+    <div>
+      <div className="flex justify-center items-center pt-12">
+        <div>
+          <img
+            onClick={() => history.push("/")}
+            className="cursor-pointer"
+            style={{
+              height: "7rem",
+            }}
+            src={logo}
+            alt="logo"
+          />
+        </div>
 
-            <Grid.Column style={{ padding: 0 }}>
-              <ProjectImageContainer className="cursor-pointer relative">
-                <ProjectImage
-                  src={generateRandomProjectImage()}
-                  alt="project-1"
-                />
-              </ProjectImageContainer>
-            </Grid.Column>
-
-            <Grid.Column style={{ padding: 0 }}>
-              <ProjectImageContainer className="cursor-pointer relative">
-                <ProjectImage
-                  src={generateRandomProjectImage()}
-                  alt="project-1"
-                />
-              </ProjectImageContainer>
-            </Grid.Column>
-          </Grid.Row>
-
-          <Grid.Row style={{ padding: 0 }}>
-            <Grid.Column style={{ padding: 0 }}>
-              <ProjectImageContainer className="cursor-pointer relative">
-                <ProjectImage
-                  src={generateRandomProjectImage()}
-                  alt="project-1"
-                />
-              </ProjectImageContainer>
-            </Grid.Column>
-
-            <Grid.Column>
-              <div className="flex h-full w-full justify-center items-center">
-                <LogoContainer className="w-1/2">
-                  <img src={logo} alt="ariankitektura" />
-                </LogoContainer>
-
-                <div className=" ml-4">
-                  <div className="flex mt-2">
-                    <div>
-                      <Icon name="mail" />{" "}
-                    </div>
-                    <div className="ml-2">info.ariankitektura@gmail.com</div>
-                  </div>
-                  <div className="flex mt-2">
-                    <div>
-                      <Icon name="facebook" />{" "}
-                    </div>
-                    <div className="ml-2">facebook/com/ariankitektura</div>
-                  </div>{" "}
-                  <div className="flex mt-2">
-                    <div>
-                      <Icon name="instagram" />{" "}
-                    </div>
-                    <div className="ml-2">instagram.com/arianktitektura</div>
-                  </div>{" "}
-                  <div className="flex mt-2">
-                    <div>
-                      <Icon name="youtube" />{" "}
-                    </div>
-                    <div className="ml-2">Ariankitektura</div>
-                  </div>{" "}
-                </div>
-              </div>
-            </Grid.Column>
-
-            <Grid.Column style={{ padding: 0 }}>
-              <ProjectImageContainer className="cursor-pointer relative">
-                <ProjectImage
-                  src={generateRandomProjectImage()}
-                  alt="project-1"
-                />
-              </ProjectImageContainer>
-            </Grid.Column>
-          </Grid.Row>
-
-          <Grid.Row style={{ padding: 0 }}>
-            <Grid.Column style={{ padding: 0 }}>
-              <ProjectImageContainer className="cursor-pointer relative">
-                <ProjectImage
-                  src={generateRandomProjectImage()}
-                  alt="project-1"
-                />
-              </ProjectImageContainer>
-            </Grid.Column>
-            <Grid.Column style={{ padding: 0 }}>
-              <ProjectImageContainer className="cursor-pointer relative">
-                <ProjectImage
-                  src={generateRandomProjectImage()}
-                  alt="project-1"
-                />
-              </ProjectImageContainer>
-            </Grid.Column>
-
-            <Grid.Column style={{ padding: 0 }}>
-              <ProjectImageContainer className="cursor-pointer relative">
-                <ProjectImage
-                  src={generateRandomProjectImage()}
-                  alt="project-1"
-                />
-              </ProjectImageContainer>
-            </Grid.Column>
-          </Grid.Row>
-        </Grid>
+        <div className="text-center">
+          <div>Contact Information</div>
+          <div>
+            Office Address: 2030B Ilustre St., Sta. Cruz, Manila City,
+            Philippines{" "}
+          </div>
+          <div> Telephone: (02) 8253 6066</div>
+          <div>Cellphone: (+63) 977 1184447 | (+63) 928 1686743</div>
+          <div> E-mail: info.ariankitektura@gmail.com</div>
+        </div>
       </div>
-    </>
+
+      <div className="px-24">
+        <Divider />
+      </div>
+    </div>
   );
 };

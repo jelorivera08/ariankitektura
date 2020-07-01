@@ -1,15 +1,13 @@
-import React, { useState, useEffect } from "react";
-import "./index.css";
-import "semantic-ui-css/semantic.min.css";
+import React, { useEffect, useState } from "react";
 import { Switch, Route } from "react-router-dom";
 
-import { importAll } from "./helpers";
-
-import Home from "./containers/Home";
-import Project from "./containers/Project";
-import Contact from "./containers/Contact";
-
+import Home from "./containers/home";
+import AboutUs from "./containers/aboutUs";
+import Portfolio from "./containers/portfolio";
+import Contact from "./containers/contact";
 import AppContext from "./context";
+
+import { importAll } from "./helpers";
 
 const images = importAll(
   require.context("../assets/projects", false, /\.(png|jpe?g|svg)$/)
@@ -24,6 +22,8 @@ function App() {
     const sortedProjects = [];
     images.forEach((image) => {
       const imageProject = image.split("/")[3].split("-")[1];
+      const projectYear = image.split("/")[3].split("-")[0];
+
       const existingProject = sortedProjects.find(
         (sortedProject) => sortedProject.projectName === imageProject
       );
@@ -37,14 +37,15 @@ function App() {
         sortedProjects.push({
           projectName: imageProject,
           images: [image],
+          projectYear: projectYear,
         });
       }
     });
 
-    setAppProjects(sortedProjects);
+    setAppProjects(
+      sortedProjects.sort((a, b) => (a.projectYear > b.projectYear ? -1 : 1))
+    );
   }, [setAppProjects, appProjects.length]);
-
-  if (appProjects.length <= 0) return null;
 
   return (
     <AppContext.Provider
@@ -54,16 +55,20 @@ function App() {
       }}
     >
       <Switch>
-        <Route ignoreScrollBehavior path="/contact">
-          <Contact />
+        <Route path="/portfolio">
+          <Portfolio ignoreScrollBehavior />
         </Route>
 
-        <Route ignoreScrollBehavior path="/:projectName">
-          <Project />
+        <Route path="/aboutUs">
+          <AboutUs ignoreScrollBehavior />
+        </Route>
+
+        <Route path="/contact">
+          <Contact ignoreScrollBehavior />
         </Route>
 
         <Route path="/">
-          <Home ignoreScrollBehavior images={images} />
+          <Home ignoreScrollBehavior />
         </Route>
       </Switch>
     </AppContext.Provider>
