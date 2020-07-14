@@ -4,14 +4,17 @@ import "./index.css";
 import "semantic-ui-css/semantic.min.css";
 import App from "./app";
 import * as serviceWorker from "./serviceWorker";
+import HttpsRedirect from "react-https-redirect";
 
 import { BrowserRouter as Router } from "react-router-dom";
 
 ReactDOM.render(
   <React.StrictMode>
-    <Router>
-      <App />
-    </Router>
+    <HttpsRedirect>
+      <Router>
+        <App />
+      </Router>
+    </HttpsRedirect>
   </React.StrictMode>,
   document.getElementById("root")
 );

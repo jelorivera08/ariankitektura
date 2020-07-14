@@ -13,8 +13,18 @@ const images = importAll(
   require.context("../assets/projects", false, /\.(png|jpe?g|svg)$/)
 );
 
+const exterior = importAll(
+  require.context("../assets/exterior", false, /\.(png|jpe?g|svg)$/)
+);
+
+const interior = importAll(
+  require.context("../assets/interior", false, /\.(png|jpe?g|svg)$/)
+);
+
 function App() {
   const [appProjects, setAppProjects] = useState([]);
+  const [exteriorImages, setExteriorImages] = useState([]);
+  const [interiorImages, setInteriorImages] = useState([]);
 
   useEffect(() => {
     if (appProjects.length !== 0) return;
@@ -42,6 +52,8 @@ function App() {
       }
     });
 
+    setExteriorImages(exterior);
+    setInteriorImages(interior);
     setAppProjects(
       sortedProjects.sort((a, b) => (a.projectYear > b.projectYear ? -1 : 1))
     );
@@ -51,6 +63,10 @@ function App() {
     <AppContext.Provider
       value={{
         appProjects,
+        exteriorImages,
+        setExteriorImages,
+        interiorImages,
+        setInteriorImages,
         setAppProjects,
       }}
     >

@@ -64,11 +64,11 @@ export default () => {
       text: "The Firm",
       selected: true,
       render: () => (
-        <div key={1} className="flex justify-center items-center">
-          <div className="w-1/4">
+        <div key={1} className="flex justify-start items-center">
+          <div className="">
             <img src={arki} alt="archi arian" className="rounded" />
           </div>
-          <div className="w-2/4 px-12 text-justify leading-loose ">
+          <div className="w-2/4 px-12 text-justify leading-loose text-xl ">
             <div className="pt-4">
               At ArianKitektura, we establish an honest and comfortable
               relationship with our clients, as building a relationship is one
@@ -100,11 +100,22 @@ export default () => {
       text: "The Experiences",
       selected: false,
       render: (imgToDisplay) => (
-        <div key={2} className="flex flex-col justify-center items-center">
-          <ImageContainer className="px-32">
-            <img src={imgToDisplay} alt="archi arian" className="rounded" />
-          </ImageContainer>
-          <div className="px-32 py-16 text-lg text-justify leading-loose ">
+        <div key={2} className="flex justify-center items-center">
+          <div className="">
+            <ImageContainer>
+              <img
+                style={{
+                  maxWidth: "none",
+                  width: "55rem",
+                }}
+                src={imgToDisplay}
+                alt="archi arian"
+                className="rounded"
+              />
+            </ImageContainer>
+          </div>
+
+          <div className="px-16 py-16 text-xl text-justify leading-loose ">
             <div className="pt-4">
               Our design experience range from small to high-end residentials,
               site planning development of luxury resorts, hotels, events place,
@@ -134,13 +145,21 @@ export default () => {
       text: "The Mission and Vision",
       selected: false,
       render: (imgToDisplay) => (
-        <div key={2} className="flex flex-col justify-center items-center">
-          <ImageContainer className="px-32">
-            <img src={imgToDisplay} alt="archi arian" className="rounded" />
+        <div key={2} className="flex  justify-center items-center">
+          <ImageContainer className="">
+            <img
+              style={{
+                maxWidth: "none",
+                width: "55rem",
+              }}
+              src={imgToDisplay}
+              alt="archi arian"
+              className="rounded"
+            />
           </ImageContainer>
-          <div className="px-32 py-16 text-lg text-justify leading-loose ">
+          <div className="px-16 py-16 text-xl text-justify leading-loose ">
             <div className="pt-4">
-              <div className="font-bold text-lg mb-4">MISSION STATEMENT</div>
+              <div className="font-bold text-xl mb-4">MISSION STATEMENT</div>
 
               <div>
                 {" "}
@@ -152,7 +171,7 @@ export default () => {
               </div>
             </div>
             <div className="mt-4">
-              <div className="font-bold text-lg mt-12 mb-4">
+              <div className="font-bold text-xl mt-12 mb-4">
                 {" "}
                 VISION STATEMENT
               </div>
@@ -175,7 +194,7 @@ export default () => {
           <div className="px-32">
             <img src={address} alt="archi arian" className="rounded" />
           </div>
-          <div className="px-32 py-8 text-lg text-justify leading-loose ">
+          <div className="px-32 py-8 text-xl text-center leading-loose ">
             <div>
               Office Address: 2030B Ilustre St., Sta. Cruz, Manila City,
               Philippines{" "}
@@ -184,7 +203,7 @@ export default () => {
             <div>Cellphone: (+63) 977 1184447 | (+63) 928 1686743</div>
             <div> E-mail: info.ariankitektura@gmail.com</div>
 
-            <div className="flex mt-4">
+            <div className="flex justify-center mt-4">
               <div className="cursor-pointer">
                 {" "}
                 <Icon

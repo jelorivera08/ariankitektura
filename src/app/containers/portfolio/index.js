@@ -56,36 +56,25 @@ const getRandomProjectImage = (appProjects) => {
 
 export default () => {
   const history = useHistory();
-  const { appProjects } = useContext(AppContext);
-
-  const [imgToDisplay, setImgToDisplay] = useState("");
-
-  useEffect(() => {
-    if (appProjects.length <= 0) return;
-
-    setImgToDisplay(getRandomProjectImage(appProjects));
-
-    const imgInterval = setInterval(() => {
-      setImgToDisplay(getRandomProjectImage(appProjects));
-    }, 5000);
-
-    return () => clearInterval(imgInterval, () => {});
-  }, [appProjects]);
+  const { appProjects, exteriorImages, interiorImages } = useContext(
+    AppContext
+  );
 
   const [selections, setSelections] = useState([
     {
       text: "Projects",
       selected: true,
-      render: (appProjects) => (
+      render: (exteriorImages) => (
         <div key={1} className="flex justify-center items-center">
           <div className="p-8" style={{ width: "75rem" }}>
             <Carousel>
-              {appProjects.length > 0 &&
-                appProjects.map((proj) => (
-                  <div key={proj.projectName}>
-                    <img src={proj.images[0]} alt="proj" />
+              {exteriorImages.map((image, i) => {
+                return (
+                  <div className="overflow-hidden">
+                    <ProjectImage src={image} />{" "}
                   </div>
-                ))}
+                );
+              })}
             </Carousel>
           </div>
         </div>
@@ -94,25 +83,22 @@ export default () => {
     {
       text: "Renderings",
       selected: false,
-      render: (appProjects) => (
+      render: (interiorImages) => (
         <div className="grid grid-cols-3 grid-rows-3 px-8 mt-8 ">
-          {appProjects.map((proj) =>
-            proj.images.map(
-              (image, i) =>
-                i < 3 && (
-                  <div className="overflow-hidden">
-                    <ProjectImage src={image} />{" "}
-                  </div>
-                )
-            )
-          )}
+          {interiorImages.map((image, i) => {
+            return (
+              <div className="overflow-hidden">
+                <ProjectImage src={image} />{" "}
+              </div>
+            );
+          })}
         </div>
       ),
     },
     {
       text: "Walkthroughs",
       selected: false,
-      render: (appProjects) => (
+      render: () => (
         <div className="grid  grid-cols-2 px-8 mt-8">
           {youtubeVideos.map((yt) => (
             <div className="w-full" key={yt}>
@@ -164,7 +150,10 @@ export default () => {
       </div>
 
       <div className="flex w-100 justify-center items-center">
-        {selections.map((v) => v.selected && v.render(appProjects))}
+        {selections.map(
+          (v, i) =>
+            v.selected && v.render(i === 0 ? exteriorImages : interiorImages)
+        )}
       </div>
     </div>
   );
