@@ -30,7 +30,7 @@ export default () => {
             {" "}
             design{" "}
           </span>{" "}
-          is our passion.""
+          is our passion."
         </div>
 
         <div className="flex my-8 justify-around py-4 text-5xl bg-black text-white w-full ">
