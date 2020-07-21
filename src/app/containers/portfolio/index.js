@@ -62,26 +62,22 @@ export default () => {
 
   const [selections, setSelections] = useState([
     {
-      text: "Projects",
+      text: "Exterior",
       selected: true,
       render: (exteriorImages) => (
-        <div key={1} className="flex justify-center items-center">
-          <div className="p-8" style={{ width: "75rem" }}>
-            <Carousel>
-              {exteriorImages.map((image, i) => {
-                return (
-                  <div className="overflow-hidden">
-                    <ProjectImage src={image} />{" "}
-                  </div>
-                );
-              })}
-            </Carousel>
-          </div>
+        <div className="grid grid-cols-3 grid-rows-3 px-8 mt-8 ">
+          {exteriorImages.map((image, i) => {
+            return (
+              <div className="overflow-hidden">
+                <ProjectImage src={image} />{" "}
+              </div>
+            );
+          })}
         </div>
       ),
     },
     {
-      text: "Renderings",
+      text: "Interior",
       selected: false,
       render: (interiorImages) => (
         <div className="grid grid-cols-3 grid-rows-3 px-8 mt-8 ">

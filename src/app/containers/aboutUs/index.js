@@ -64,11 +64,11 @@ export default () => {
       text: "The Firm",
       selected: true,
       render: () => (
-        <div key={1} className="flex justify-start items-center">
+        <div key={1} className="flex justify-start">
           <div className="">
             <img src={arki} alt="archi arian" className="rounded" />
           </div>
-          <div className="w-2/4 px-12 text-justify leading-loose text-xl ">
+          <div className="w-2/4 p-12 text-justify leading-loose text-xl ">
             <div className="pt-4">
               At ArianKitektura, we establish an honest and comfortable
               relationship with our clients, as building a relationship is one
@@ -100,7 +100,7 @@ export default () => {
       text: "The Experiences",
       selected: false,
       render: (imgToDisplay) => (
-        <div key={2} className="flex justify-center items-center">
+        <div key={2} className="flex justify-center items-center ">
           <div className="">
             <ImageContainer>
               <img
@@ -248,7 +248,7 @@ export default () => {
   ]);
 
   return (
-    <div>
+    <div className="h-screen">
       <div className="flex justify-center items-center pt-12">
         <div>
           <img

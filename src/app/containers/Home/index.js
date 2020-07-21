@@ -1,24 +1,50 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 
 import logo from "../../../assets/images/logo.png";
+import sublogo from "../../../assets/images/sublogo.png";
 
 const Container = styled.div`
   background-color: #f1f1f1;
 `;
 
+const ImageFadeIn = styled.img`
+  animation: fadeIn 2s forwards;
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+`;
+
 export default () => {
   const history = useHistory();
+  const [showSubLogo, setShowSubLogo] = useState(false);
 
   return (
     <Container className="flex flex-col h-screen justify-center items-center w-full">
       <img
         onClick={() => history.push("/")}
         className="cursor-pointer"
+        onMouseEnter={() => setShowSubLogo(true)}
         src={logo}
         alt="logo"
       />
+
+      {showSubLogo && (
+        <ImageFadeIn
+          onClick={() => history.push("/")}
+          className="cursor-pointer"
+          src={sublogo}
+          alt="logo"
+        />
+      )}
+
       <div className="w-full mt-4 flex justify-center flex-col items-center ">
         <div className="py-4 italic text-4xl">
           "Interpreted{" "}
@@ -28,7 +54,7 @@ export default () => {
             }}
           >
             {" "}
-            design{" "}
+            art{" "}
           </span>{" "}
           is our passion."
         </div>
