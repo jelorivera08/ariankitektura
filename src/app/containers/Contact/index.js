@@ -3,10 +3,10 @@ import { Divider, Icon } from "semantic-ui-react";
 import cs from "classnames";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
-import AppContext from "../../context";
+import emailjs from "emailjs-com";
 import logo from "../../../assets/images/logo.png";
-import arki from "../../../assets/images/architect.jpg";
-import address from "../../../assets/images/address.png";
+
+import { Button, Checkbox, Form } from "semantic-ui-react";
 
 const ImageContainer = styled.div`
   animation: fadeIn 5s infinite;
@@ -43,6 +43,28 @@ const getRandomProjectImage = (appProjects) => {
 
 export default () => {
   const history = useHistory();
+  const [formValues, setFormValues] = useState({
+    firstName: "",
+    lastName: "",
+    organization: "",
+    email: "",
+    address: "",
+    contactNumber: "",
+    comments: "",
+  });
+
+  function sendEmail() {
+    emailjs
+      .send("jelo", "ariankitektura", formValues, "user_vjf5yGARToUOHKDcBHO3J")
+      .then(
+        (result) => {
+          console.log(result.text);
+        },
+        (error) => {
+          console.log(error.text);
+        }
+      );
+  }
 
   return (
     <div>
@@ -73,6 +95,97 @@ export default () => {
 
       <div className="px-24">
         <Divider />
+      </div>
+
+      <div className="px-24 py-12">
+        <Form onSubmit={sendEmail}>
+          <Form.Field>
+            <label>First Name</label>
+            <input
+              onChange={(e) =>
+                setFormValues({
+                  ...formValues,
+                  firstName: e.target.value,
+                })
+              }
+              placeholder="First Name"
+            />
+          </Form.Field>
+          <Form.Field>
+            <label>Last Name</label>
+            <input
+              onChange={(e) =>
+                setFormValues({
+                  ...formValues,
+                  lastName: e.target.value,
+                })
+              }
+              placeholder="Last Name"
+            />
+          </Form.Field>
+          <Form.Field>
+            <label>Organization</label>
+            <input
+              onChange={(e) =>
+                setFormValues({
+                  ...formValues,
+                  organization: e.target.value,
+                })
+              }
+              placeholder="Organization"
+            />
+          </Form.Field>
+          <Form.Field>
+            <label>Address</label>
+            <input
+              onChange={(e) =>
+                setFormValues({
+                  ...formValues,
+                  address: e.target.value,
+                })
+              }
+              placeholder="Address"
+            />
+          </Form.Field>
+          <Form.Field>
+            <label>Contact Number</label>
+            <input
+              onChange={(e) =>
+                setFormValues({
+                  ...formValues,
+                  contactNumber: e.target.value,
+                })
+              }
+              placeholder="Contact Number"
+            />
+          </Form.Field>
+          <Form.Field>
+            <label>E-mail address</label>
+            <input
+              onChange={(e) =>
+                setFormValues({
+                  ...formValues,
+                  email: e.target.value,
+                })
+              }
+              placeholder="E-mail address"
+            />
+          </Form.Field>
+          <Form.Field>
+            <label>Questions & Comments</label>
+            <input
+              onChange={(e) =>
+                setFormValues({
+                  ...formValues,
+                  comments: e.target.value,
+                })
+              }
+              placeholder="Questions & Comments"
+            />
+          </Form.Field>
+
+          <Button type="submit">Submit</Button>
+        </Form>
       </div>
     </div>
   );

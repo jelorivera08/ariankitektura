@@ -3,6 +3,8 @@ import { Divider, Icon } from "semantic-ui-react";
 import cs from "classnames";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
+import GoogleMap from "../../components/GoogleMap";
+
 import AppContext from "../../context";
 import logo from "../../../assets/images/logo.png";
 import arki from "../../../assets/images/architect.jpg";
@@ -100,7 +102,7 @@ export default () => {
       text: "The Experiences",
       selected: false,
       render: (imgToDisplay) => (
-        <div key={2} className="flex justify-center items-center ">
+        <div key={2} className="flex justify-center items-center pt-32">
           <div className="">
             <ImageContainer>
               <img
@@ -145,7 +147,7 @@ export default () => {
       text: "The Mission and Vision",
       selected: false,
       render: (imgToDisplay) => (
-        <div key={2} className="flex  justify-center items-center">
+        <div key={2} className="flex  justify-center items-center pt-32">
           <ImageContainer className="">
             <img
               style={{
@@ -190,59 +192,62 @@ export default () => {
       text: "The Location",
       selected: false,
       render: () => (
-        <div key={2} className="flex flex-col justify-center items-center">
-          <div className="px-32">
-            <img src={address} alt="archi arian" className="rounded" />
-          </div>
-          <div className="px-32 py-8 text-xl text-center leading-loose ">
-            <div>
-              Office Address: 2030B Ilustre St., Sta. Cruz, Manila City,
-              Philippines{" "}
-            </div>
-            <div> Telephone: (02) 8253 6066</div>
-            <div>Cellphone: (+63) 977 1184447 | (+63) 928 1686743</div>
-            <div> E-mail: info.ariankitektura@gmail.com</div>
+        <>
+          <GoogleMap />
+          <div
+            key={2}
+            className="flex flex-col justify-center items-center mb-64"
+          >
+            <div className="px-32 py-8 text-xl text-center leading-loose ">
+              <div>
+                Office Address: 2030B Ilustre St., Sta. Cruz, Manila City,
+                Philippines{" "}
+              </div>
+              <div> Telephone: (02) 8253 6066</div>
+              <div>Cellphone: (+63) 977 1184447 | (+63) 928 1686743</div>
+              <div> E-mail: info.ariankitektura@gmail.com</div>
 
-            <div className="flex justify-center mt-4">
-              <div className="cursor-pointer">
-                {" "}
-                <Icon
-                  onClick={() =>
-                    window.location.replace(
-                      "https://www.facebook.com/ArianKitektura/"
-                    )
-                  }
-                  name="facebook"
-                  size="large"
-                />
-              </div>
-              <div className="ml-4 cursor-pointer">
-                {" "}
-                <Icon
-                  onClick={() =>
-                    window.location.replace(
-                      "https://www.instagram.com/ariankitektura.designs/"
-                    )
-                  }
-                  name="instagram"
-                  size="large"
-                />
-              </div>
-              <div className="ml-4 cursor-pointer">
-                {" "}
-                <Icon
-                  onClick={() =>
-                    window.location.replace(
-                      "https://www.youtube.com/playlist?list=PLB33KZ33YbLRlDdrNZeUOD0nTogIvF9Vw"
-                    )
-                  }
-                  name="youtube"
-                  size="large"
-                />
+              <div className="flex justify-center mt-4">
+                <div className="cursor-pointer">
+                  {" "}
+                  <Icon
+                    onClick={() =>
+                      window.location.replace(
+                        "https://www.facebook.com/ArianKitektura/"
+                      )
+                    }
+                    name="facebook"
+                    size="large"
+                  />
+                </div>
+                <div className="ml-4 cursor-pointer">
+                  {" "}
+                  <Icon
+                    onClick={() =>
+                      window.location.replace(
+                        "https://www.instagram.com/ariankitektura.designs/"
+                      )
+                    }
+                    name="instagram"
+                    size="large"
+                  />
+                </div>
+                <div className="ml-4 cursor-pointer">
+                  {" "}
+                  <Icon
+                    onClick={() =>
+                      window.location.replace(
+                        "https://www.youtube.com/playlist?list=PLB33KZ33YbLRlDdrNZeUOD0nTogIvF9Vw"
+                      )
+                    }
+                    name="youtube"
+                    size="large"
+                  />
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        </>
       ),
     },
   ]);
